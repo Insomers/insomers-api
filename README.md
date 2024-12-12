@@ -8,7 +8,7 @@ Capstone2 API adalah aplikasi Express.js yang menyediakan endpoint untuk autenti
 ### Instalasi
 1. Clone repositori:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/Insomers/insomers-api.git
    cd capstone2
    ```
 2. Instal dependensi:
