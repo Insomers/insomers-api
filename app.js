@@ -22,7 +22,15 @@ app.use("/quiz", quizRouter);
 app.use("/profile", profileRouter);
 app.use("/information", informationRouter);
 
+app.use((err, req, res, next) => {
+  res.status(err.status || 500).json({
+    error: true,
+    message: err.message || "Internal Server Error",
+  });
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+

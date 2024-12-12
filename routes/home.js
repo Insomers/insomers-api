@@ -2,25 +2,55 @@ const express = require("express");
 const router = express.Router();
 
 router.get("/", (req, res) => {
-  const currentDate = new Date().toLocaleDateString("id-ID", {
-    weekday: "long", // Hari dalam bahasa Indonesia (Senin, Selasa, dll.)
-    year: "numeric",
-    month: "long", // Nama bulan (Januari, Februari, dll.)
-    day: "numeric",
-  });
-
-  const currentTime = new Date().toLocaleTimeString("id-ID", {
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: false, // Format 24 jam
-  });
-
-  res.json({
+  try {
     
-    currentDate: ` ${currentDate}`,
-    currentTime: ` ${currentTime}`,
+    const now = new Date();
+
     
+    const dateOptions = {
+      timeZone: "Asia/Makassar",
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    };
+
+    const timeOptions = {
+      timeZone: "Asia/Makassar",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false, 
+    };
+
+    const currentDate = new Intl.DateTimeFormat("id-ID", dateOptions).format(
+      now
+    );
+    const currentTime = new Intl.DateTimeFormat("id-ID", timeOptions).format(
+      now
+    );
+
+    
+    res.setHeader("Content-Type", "application/json");
+
+    
+    res.status(200).json({
+      currentDate: currentDate,
+      currentTime: currentTime,
+    });
+  } catch (error) {
+  
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error. Failed to process the request.",
+    });
+  }
+});
+
+
+router.use((req, res) => {
+  res.status(404).json({
+    success: false,
+    message: "Resource not found. Please check the URL or method.",
   });
 });
 
